@@ -18,4 +18,7 @@ got to the file package ```com.bardur.moviedb.api.MovieDatabaseApiService.kt``` 
 
 
 ### Step 3
-Run the project and play around to list moves!
+Run the project and play around to see a list of popular movies!
+
+### Step 4
+Add your own features!
