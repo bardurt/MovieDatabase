@@ -9,7 +9,7 @@
 
         <variable
             name="viewModel"
-            type="com.bardur.moviedb.ui.screens.popular.PopularViewModel" />
+            type="com.bardur.moviedb.ui.screens.top.TopRatedViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -18,7 +18,7 @@
         android:paddingBottom="?attr/actionBarSize">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/popular_recycler_view"
+            android:id="@+id/top_rated_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
@@ -31,7 +31,7 @@
             tools:listitem="@layout/item_movie" />
 
         <ProgressBar
-            android:id="@+id/home_progress_bar"
+            android:id="@+id/top_rated_progress_bar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="@{viewModel.isLoading ? View.VISIBLE : View.GONE }"

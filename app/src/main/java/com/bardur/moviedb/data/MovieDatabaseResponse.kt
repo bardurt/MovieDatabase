@@ -1,3 +1,3 @@
 package com.bardur.moviedb.data
 
-data class MovieDatabaseResponse(val results: List<Movie>)
+data class MovieDatabaseResponse(val movie: Movie)

@@ -7,6 +7,12 @@
         android:title="@string/title_home" />
 
     <item
+        android:id="@+id/navigation_top_rated"
+        android:icon="@drawable/ic_top_rated_black_24"
+        android:title="@string/title_top_rated" />
+
+
+    <item
         android:id="@+id/navigation_popular"
         android:icon="@drawable/ic_whats_hot_black_24"
         android:title="@string/title_popular" />

@@ -16,12 +16,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:gravity="center"
-        android:paddingBottom="?attr/actionBarSize"
-        tools:context=".ui.screens.home.HomeFragment">
+        android:gravity="center_horizontal"
+        android:paddingBottom="?attr/actionBarSize">
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="4dp" />
 
         <TextView
-            android:id="@+id/details_overview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="@dimen/grid_1"
@@ -37,6 +39,38 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_tmdb_logo" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="48dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/grid_1"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:text="@string/title_latest_movie" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="4dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/grid_1"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:textSize="16dp"
+            android:text="@{viewModel.movie.title}" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/grid_1"
+            android:text="@{viewModel.movie.tagline}" />
+
 
     </LinearLayout>
 

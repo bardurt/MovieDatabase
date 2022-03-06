@@ -5,7 +5,8 @@
     android:id="@+id/mobile_navigation"
     app:startDestination="@+id/navigation_home">
 
-    <action android:id="@+id/action_movie_details"
+    <action
+        android:id="@+id/action_movie_details"
         app:destination="@id/navigation_details" />
 
     <fragment
@@ -13,6 +14,13 @@
         android:name="com.bardur.moviedb.ui.screens.home.HomeFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/navigation_top_rated"
+        android:name="com.bardur.moviedb.ui.screens.top.TopRatedFragment"
+        android:label="@string/title_top_rated"
+        tools:layout="@layout/fragment_top_rated" />
+
 
     <fragment
         android:id="@+id/navigation_popular"
@@ -28,9 +36,9 @@
 
     <fragment
         android:id="@+id/navigation_details"
-        android:label="@string/title_details"
         android:name="com.bardur.moviedb.ui.screens.details.DetailsFragment"
-        tools:layout="@layout/fragment_details" >
+        android:label="@string/title_details"
+        tools:layout="@layout/fragment_details">
         <argument
             android:name="movie"
             app:argType="com.bardur.moviedb.data.Movie" />

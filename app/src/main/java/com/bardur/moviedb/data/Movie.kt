@@ -8,12 +8,15 @@ data class Movie(
     val title: String,
     val adult: Boolean,
     @Json(name = "poster_path")
-    val posterPath: String,
+    val posterPath: String?,
     val overview: String,
     @Json(name = "vote_average")
     val vote: Double,
     @Json(name = "release_date")
-    val releaseDate: String
+    val releaseDate: String,
+    val tagline: String?,
+    val status: String?,
+    val runtime: String?
 ) : Serializable {
 
 
@@ -27,7 +30,7 @@ data class Movie(
     fun releaseYear(): String {
         return try {
             releaseDate.split("-")[0]
-        } catch (e : Exception){
+        } catch (e: Exception) {
             ""
         }
     }
