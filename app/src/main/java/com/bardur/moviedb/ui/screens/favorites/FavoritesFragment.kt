@@ -23,7 +23,6 @@ class FavoritesFragment : Fragment(), MovieAdapter.MovieClickListener {
     private lateinit var binding: FragmentFavoritesBinding
     private lateinit var viewModelFactory: FavoritesViewModelFactory
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -58,23 +57,6 @@ class FavoritesFragment : Fragment(), MovieAdapter.MovieClickListener {
          */
         favoritesViewModel.movies.observe(viewLifecycleOwner) {
             movieAdapter.updateMovies(it)
-        }
-
-        /*
-         * Observer the error LiveData from the view model to make sure
-         * that the user is notified when an error happens
-         */
-        favoritesViewModel.error.observe(viewLifecycleOwner) { error ->
-            run {
-                if (error == 1) {
-                    Toast.makeText(
-                        context,
-                        getString(R.string.favorites_result_error_message),
-                        Toast.LENGTH_SHORT
-                    )
-                        .show()
-                }
-            }
         }
     }
 

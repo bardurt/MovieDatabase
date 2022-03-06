@@ -20,4 +20,8 @@ class InMemoryMovieStorageRepo : MovieStorageRepo {
     override fun getAll(): List<Movie> {
         return movies
     }
+
+    override fun contains(movie: Movie): Boolean {
+        return movies.contains(movie)
+    }
 }

@@ -19,11 +19,6 @@ class FavoritesViewModel(private val movieStorageRepo: MovieStorageRepo) : ViewM
     val isLoading: LiveData<Boolean>
         get() = _isLoading
 
-    private val _error = MutableLiveData<Int>().apply {
-        value = 0
-    }
-    val error: LiveData<Int>
-        get() = _error
 
     init {
         getFavoritesMovies()
@@ -31,7 +26,6 @@ class FavoritesViewModel(private val movieStorageRepo: MovieStorageRepo) : ViewM
 
     private fun getFavoritesMovies() {
 
-        _error.value = 0
         _isLoading.value = true
         viewModelScope.launch {
             try {
@@ -43,7 +37,6 @@ class FavoritesViewModel(private val movieStorageRepo: MovieStorageRepo) : ViewM
                 _movies.value = result
             } catch (e: Exception) {
                 Log.e(FavoritesViewModel::class.simpleName, e.message.orEmpty())
-                _error.value = 1
             }
             _isLoading.value = false
         }

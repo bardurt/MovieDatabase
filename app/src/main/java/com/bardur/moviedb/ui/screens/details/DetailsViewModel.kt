@@ -6,7 +6,8 @@ import androidx.lifecycle.ViewModel
 import com.bardur.moviedb.data.Movie
 import com.bardur.moviedb.storage.MovieStorageRepo
 
-class DetailsViewModel(val movie: Movie, private val moveStorageRepo: MovieStorageRepo) : ViewModel() {
+class DetailsViewModel(private val movie: Movie, private val moveStorageRepo: MovieStorageRepo) :
+    ViewModel() {
 
     private val _title = MutableLiveData<String>()
     val title: LiveData<String>
@@ -20,22 +21,53 @@ class DetailsViewModel(val movie: Movie, private val moveStorageRepo: MovieStora
     val posterPath: LiveData<String>
         get() = _posterPath
 
-    private val _saveResult = MutableLiveData<Int>().apply {
-        value = 0
+    private val _releaseYear = MutableLiveData<String>()
+    val releaseYear : LiveData<String>
+        get() = _releaseYear
+
+    private val _rating = MutableLiveData<Double>()
+    val rating : LiveData<Double>
+        get() =  _rating
+
+    private val _favorite = MutableLiveData<Boolean>().apply {
+        value = false
     }
-    val saveResult: LiveData<Int>
-        get() = _saveResult
+
+    val isFavorite: LiveData<Boolean>
+        get() = _favorite
 
     init {
         _title.value = movie.title
         _overview.value = movie.overview
         _posterPath.value = movie.posterPath
+        _releaseYear.value = movie.releaseYear()
+        _rating.value = movie.toFiveStarRating()
+        updateFavoriteValue()
     }
 
+    private fun checkIfFavorite(): Boolean {
+        return moveStorageRepo.contains(movie)
+    }
 
-    fun saveMovie() {
-        _saveResult.value = 0
+    private fun updateFavoriteValue() {
+        _favorite.value = moveStorageRepo.contains(movie)
+    }
+
+    fun updateMovieFavorite() {
+        if (checkIfFavorite()) {
+            removeFavorite()
+        } else {
+            saveAsFavorite()
+        }
+    }
+
+    private fun saveAsFavorite() {
         moveStorageRepo.saveMovie(movie)
-        _saveResult.value = 1
+        updateFavoriteValue()
+    }
+
+    private fun removeFavorite() {
+        moveStorageRepo.deleteMovie(movie)
+        updateFavoriteValue()
     }
 }

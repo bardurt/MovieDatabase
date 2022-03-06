@@ -42,25 +42,4 @@ class DetailsFragment : Fragment() {
 
         return binding.root
     }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        /*
-         * Observer the error LiveData from the view model to make sure
-         * that the user is notified when an error happens
-         */
-        detailsViewModel.saveResult.observe(viewLifecycleOwner) { error ->
-            run {
-                if (error == 1) {
-                    Toast.makeText(
-                        context,
-                        getString(R.string.movie_saved_success_message),
-                        Toast.LENGTH_SHORT
-                    )
-                        .show()
-                }
-            }
-        }
-    }
 }

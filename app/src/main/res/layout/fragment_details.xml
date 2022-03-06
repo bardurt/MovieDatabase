@@ -61,7 +61,7 @@
                     style="@style/TextAppearance.AppCompat.Body1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{detailsViewModel.movie.releaseYear}"
+                    android:text="@{detailsViewModel.releaseYear}"
                     tools:text="12-12-2020" />
 
                 <RatingBar
@@ -72,14 +72,14 @@
                     android:focusableInTouchMode="false"
                     android:isIndicator="true"
                     android:max="10"
-                    app:setRating="@{detailsViewModel.movie.toFiveStarRating}" />
+                    app:setRating="@{detailsViewModel.rating}" />
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:onClick="@{() -> detailsViewModel.saveMovie()}"
+                    android:onClick="@{() -> detailsViewModel.updateMovieFavorite()}"
                     android:src="@drawable/ic_favorite_black_24"
-                    app:tint="@color/red" />
+                    app:tintFavorite="@{detailsViewModel.isFavorite()}" />
 
             </LinearLayout>
 

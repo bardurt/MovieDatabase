@@ -28,6 +28,22 @@ fun bindRating(view: TextView, rating: Double?) {
     view.text = String.format("%.1f", rating)
 }
 
+@BindingAdapter("app:tintFavorite")
+fun tintFavorite(view: ImageView, favorite: Boolean) {
+
+    if (favorite) {
+        view.setColorFilter(
+            ContextCompat.getColor(view.context, R.color.red),
+            android.graphics.PorterDuff.Mode.SRC_IN
+        )
+    } else {
+        view.setColorFilter(
+            ContextCompat.getColor(view.context, R.color.black),
+            android.graphics.PorterDuff.Mode.SRC_IN
+        )
+    }
+}
+
 
 /**
  * Binding adapter to tint the color of an image view based on a value

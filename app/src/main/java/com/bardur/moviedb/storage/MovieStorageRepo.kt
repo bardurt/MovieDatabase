@@ -9,4 +9,6 @@ interface MovieStorageRepo {
     fun deleteMovie(movie: Movie)
 
     fun getAll() : List<Movie>
+
+    fun contains(movie: Movie) : Boolean
 }
