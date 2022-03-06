@@ -17,7 +17,8 @@ import com.bardur.moviedb.ui.screens.utills.showMovieDetails
 
 
 class SearchFragment : Fragment(), SearchView.OnQueryTextListener,
-    MovieAdapter.MovieClickListener {
+    MovieAdapter.MovieClickListener,
+    MovieAdapter.MovieDataListener {
 
     private lateinit var binding: FragmentSearchBinding
 
@@ -46,13 +47,21 @@ class SearchFragment : Fragment(), SearchView.OnQueryTextListener,
         searchView = binding.searchSearchView
         searchView.setOnQueryTextListener(this)
 
-        val movieAdapter = MovieAdapter(this)
+        val movieAdapter = MovieAdapter(this, this)
         binding.searchRecyclerView.adapter = movieAdapter
 
+        /*
+         * Observer the movies LiveData from the view model to make sure that
+         * the displayed list of movies is updated when the LiveData changes
+         */
         searchViewModel.movies.observe(viewLifecycleOwner) {
             movieAdapter.updateMovies(it)
         }
 
+        /*
+         * Observer the error LiveData from the view model to make sure
+         * that the user is notified when an error happens
+         */
         searchViewModel.error.observe(viewLifecycleOwner) { error ->
             if (error == 1) {
                 Toast.makeText(
@@ -76,6 +85,12 @@ class SearchFragment : Fragment(), SearchView.OnQueryTextListener,
     override fun onQueryTextChange(newText: String?): Boolean = true
 
     override fun handleClick(view: View, movie: Movie) {
+        // The user has clicked on a movie from the list, show the details!
         showMovieDetails(view, movie)
+    }
+
+    override fun onDataUpdated() {
+        // Data in the list has been updated, makes sure to scroll the list to the top!
+        binding.searchRecyclerView.scrollToPosition(0)
     }
 }

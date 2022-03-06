@@ -36,6 +36,10 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        /*
+         * Observer the error LiveData from the view model to make sure
+         * that the user is notified when an error happens
+         */
         homeViewModel.error.observe(viewLifecycleOwner) { error ->
             run {
                 if (error == 1) {

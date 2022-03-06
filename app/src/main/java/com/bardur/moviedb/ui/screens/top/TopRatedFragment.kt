@@ -42,10 +42,18 @@ class TopRatedFragment : Fragment(), MovieAdapter.MovieClickListener,
         val movieAdapter = MovieAdapter(this, this)
         binding.topRatedRecyclerView.adapter = movieAdapter
 
+        /*
+         * Observer the movies LiveData from the view model to make sure that
+         * the displayed list of movies is updated when the LiveData changes
+         */
         topRatedViewModel.movies.observe(viewLifecycleOwner) {
             movieAdapter.updateMovies(it)
         }
 
+        /*
+         * Observer the error LiveData from the view model to make sure
+         * that the user is notified when an error happens
+         */
         topRatedViewModel.error.observe(viewLifecycleOwner) { error ->
             run {
                 if (error == 1) {
@@ -61,10 +69,12 @@ class TopRatedFragment : Fragment(), MovieAdapter.MovieClickListener,
     }
 
     override fun handleClick(view: View, movie: Movie) {
+        // The user has clicked on a movie from the list, show the details!
         showMovieDetails(view, movie)
     }
 
     override fun onDataUpdated() {
+        // Data in the list has been updated, makes sure to scroll the list to the top!
         binding.topRatedRecyclerView.scrollToPosition(0)
     }
 }
