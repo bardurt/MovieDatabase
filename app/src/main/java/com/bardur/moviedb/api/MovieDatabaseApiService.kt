@@ -2,7 +2,6 @@ package com.bardur.moviedb.api
 
 
 import com.bardur.moviedb.data.Movie
-import com.bardur.moviedb.data.MovieDatabaseResponse
 import com.bardur.moviedb.data.MovieDatabaseResponseList
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -14,7 +13,7 @@ import retrofit2.http.Query
 private const val BASE_URL = "https://api.themoviedb.org/3/"
 
 // get your API Key from https://www.themoviedb.org/ replace [MY_API_KEY]
-private const val API_KEY = "43ad9df8f9e03181f4ca41b5e00c8222"
+private const val API_KEY = ""
 
 /**
  * Build the Moshi object that Retrofit will be using, making sure to add the Kotlin adapter for
@@ -43,13 +42,11 @@ interface MovieDatabaseApiService {
     @GET("discover/movie?api_key=$API_KEY&sort_by=popularity.desc")
     suspend fun mostPopular(): MovieDatabaseResponseList
 
-
     @GET("movie/latest?api_key=$API_KEY&language=en-US")
     suspend fun latest(): Movie
 
-    @GET("movie/top_rated?api_key=$API_KEY&language=en-US&page=1")
-    suspend fun topRated(): MovieDatabaseResponseList
-
+    @GET("movie/top_rated?api_key=$API_KEY&language=en-US")
+    suspend fun topRated(@Query("page") page : Int): MovieDatabaseResponseList
 
     @GET("search/movie?api_key=$API_KEY")
     suspend fun search(@Query("query") query: String): MovieDatabaseResponseList

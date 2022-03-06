@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bardur.moviedb.api.MovieDatabaseApi
 import com.bardur.moviedb.data.Movie
-import com.bardur.moviedb.ui.screens.top.TopRatedViewModel
 import kotlinx.coroutines.launch
 
 class PopularViewModel : ViewModel() {

@@ -1,23 +1,22 @@
 package com.bardur.moviedb.ui.screens.top
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.bardur.moviedb.R
 import com.bardur.moviedb.data.Movie
-import com.bardur.moviedb.databinding.FragmentPopularBinding
 import com.bardur.moviedb.databinding.FragmentTopRatedBinding
 import com.bardur.moviedb.ui.adapters.MovieAdapter
-import com.bardur.moviedb.ui.screens.popular.PopularViewModel
 import com.bardur.moviedb.ui.screens.utills.showMovieDetails
 
 
-class TopRatedFragment : Fragment(), MovieAdapter.MovieClickListener {
+class TopRatedFragment : Fragment(), MovieAdapter.MovieClickListener,
+    MovieAdapter.MovieDataListener {
 
     private lateinit var topRatedViewModel: TopRatedViewModel
     private lateinit var binding: FragmentTopRatedBinding
@@ -40,7 +39,7 @@ class TopRatedFragment : Fragment(), MovieAdapter.MovieClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val movieAdapter = MovieAdapter(this)
+        val movieAdapter = MovieAdapter(this, this)
         binding.topRatedRecyclerView.adapter = movieAdapter
 
         topRatedViewModel.movies.observe(viewLifecycleOwner) {
@@ -63,5 +62,9 @@ class TopRatedFragment : Fragment(), MovieAdapter.MovieClickListener {
 
     override fun handleClick(view: View, movie: Movie) {
         showMovieDetails(view, movie)
+    }
+
+    override fun onDataUpdated() {
+        binding.topRatedRecyclerView.scrollToPosition(0)
     }
 }

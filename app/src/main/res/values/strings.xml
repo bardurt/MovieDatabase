@@ -8,6 +8,7 @@
     <string name="data_provided_by">Data provided by</string>
     <string name="search_result_error_message">Unable to find any result for search criteria!</string>
     <string name="popular_result_error_message">Unable to load popular movies!!</string>
+    <string name="latest_result_error_message">Unable to load latest movie!</string>
     <string name="top_rated_result_error_message">Unable to load top rated movies!!</string>
     <string name="title_latest_movie">Latest Movie</string>
 </resources>

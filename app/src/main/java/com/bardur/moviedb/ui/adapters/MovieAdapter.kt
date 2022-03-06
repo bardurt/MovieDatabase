@@ -9,7 +9,10 @@ import com.bardur.moviedb.BR
 import com.bardur.moviedb.data.Movie
 import com.bardur.moviedb.databinding.ItemMovieBinding
 
-class MovieAdapter(private val movieClickListener: MovieClickListener) :
+class MovieAdapter(
+    private val movieClickListener: MovieClickListener,
+    private val movieDataListener: MovieDataListener? = null
+) :
     RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
 
     private var movies = mutableListOf<Movie>()
@@ -29,6 +32,7 @@ class MovieAdapter(private val movieClickListener: MovieClickListener) :
         this.movies.clear()
         this.movies.addAll(movies)
         notifyDataSetChanged()
+        movieDataListener?.onDataUpdated()
     }
 
     class MovieViewHolder(private val binding: ViewDataBinding) :
@@ -42,5 +46,9 @@ class MovieAdapter(private val movieClickListener: MovieClickListener) :
 
     interface MovieClickListener {
         fun handleClick(view: View, movie: Movie)
+    }
+
+    interface MovieDataListener {
+        fun onDataUpdated()
     }
 }

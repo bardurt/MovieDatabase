@@ -33,4 +33,21 @@ class HomeFragment : Fragment() {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        homeViewModel.error.observe(viewLifecycleOwner) { error ->
+            run {
+                if (error == 1) {
+                    Toast.makeText(
+                        context,
+                        getString(R.string.latest_result_error_message),
+                        Toast.LENGTH_SHORT
+                    )
+                        .show()
+                }
+            }
+        }
+    }
+
 }

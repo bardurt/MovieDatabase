@@ -11,11 +11,22 @@ import kotlinx.coroutines.launch
 
 class TopRatedViewModel : ViewModel() {
 
+    private var currentPage = 1
+
+    private val _page = MutableLiveData<Int>().apply {
+        value = currentPage
+    }
+    val page: LiveData<Int>
+        get() = _page
+
     private val _movies = MutableLiveData<List<Movie>>()
     val movies: LiveData<List<Movie>>
         get() = _movies
 
-    private val _isLoading = MutableLiveData<Boolean>()
+    private var loading = false
+    private val _isLoading = MutableLiveData<Boolean>().apply {
+        value = loading
+    }
     val isLoading: LiveData<Boolean>
         get() = _isLoading
 
@@ -30,17 +41,38 @@ class TopRatedViewModel : ViewModel() {
     }
 
     private fun getTopRatedMovies() {
+        loading = true
         _error.value = 0
-        _isLoading.value = true
+        _isLoading.value = loading
         viewModelScope.launch {
             try {
-                val response = MovieDatabaseApi.retrofitService.topRated()
+                val response = MovieDatabaseApi.retrofitService.topRated(currentPage)
                 _movies.value = response.results
+                _page.value = currentPage
             } catch (e: Exception) {
                 Log.e(TopRatedViewModel::class.simpleName, e.message.orEmpty())
                 _error.value = 1
             }
-            _isLoading.value = false
+            loading = false
+            _isLoading.value = loading
+        }
+    }
+
+    fun nextPage() {
+        if(!loading) {
+            currentPage++
+            getTopRatedMovies()
+        }
+    }
+
+    fun previousPage() {
+        if(!loading) {
+            currentPage--
+            if (currentPage > 0) {
+                getTopRatedMovies()
+            } else {
+                currentPage = 1
+            }
         }
     }
 }

@@ -6,11 +6,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bardur.moviedb.api.MovieDatabaseApi
 import com.bardur.moviedb.data.Movie
-import com.bardur.moviedb.data.ProductionCountry
 import kotlinx.coroutines.launch
 import java.lang.IllegalStateException
 
-class HomeViewModel : ViewModel(){
+class HomeViewModel : ViewModel() {
     private val _movie = MutableLiveData<Movie>()
     val movie: LiveData<Movie>
         get() = _movie
@@ -35,7 +34,8 @@ class HomeViewModel : ViewModel(){
         viewModelScope.launch {
             try {
                 val movie = MovieDatabaseApi.retrofitService.latest()
-                if(movie.adult){
+                if (movie.adult) {
+                    // We do not want to display these types of movies for the user!
                     throw IllegalStateException("Not supported!")
                 }
                 _movie.value = movie
