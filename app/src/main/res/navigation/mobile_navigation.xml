@@ -21,7 +21,6 @@
         android:label="@string/title_top_rated"
         tools:layout="@layout/fragment_top_rated" />
 
-
     <fragment
         android:id="@+id/navigation_popular"
         android:name="com.bardur.moviedb.ui.screens.popular.PopularFragment"
@@ -35,6 +34,12 @@
         tools:layout="@layout/fragment_search" />
 
     <fragment
+        android:id="@+id/navigation_favorites"
+        android:name="com.bardur.moviedb.ui.screens.favorites.FavoritesFragment"
+        android:label="@string/title_favorites"
+        tools:layout="@layout/fragment_favorites" />
+
+    <fragment
         android:id="@+id/navigation_details"
         android:name="com.bardur.moviedb.ui.screens.details.DetailsFragment"
         android:label="@string/title_details"
@@ -43,4 +48,5 @@
             android:name="movie"
             app:argType="com.bardur.moviedb.data.Movie" />
     </fragment>
+
 </navigation>

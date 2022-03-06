@@ -1,4 +1,4 @@
-package com.bardur.moviedb.ui.screens.utills
+package com.bardur.moviedb.ui.utills
 
 import android.app.Activity
 import android.view.View

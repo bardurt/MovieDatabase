@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.bardur.moviedb.R
 import com.bardur.moviedb.databinding.FragmentHomeBinding
-import com.bardur.moviedb.ui.adapters.MovieAdapter
 
 class HomeFragment : Fragment() {
 

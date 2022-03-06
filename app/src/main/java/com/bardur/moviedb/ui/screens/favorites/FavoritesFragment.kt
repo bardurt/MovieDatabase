@@ -1,4 +1,4 @@
-package com.bardur.moviedb.ui.screens.top
+package com.bardur.moviedb.ui.screens.favorites
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,45 +8,55 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.bardur.moviedb.MainActivity
 import com.bardur.moviedb.R
 import com.bardur.moviedb.data.Movie
-import com.bardur.moviedb.databinding.FragmentTopRatedBinding
+import com.bardur.moviedb.databinding.FragmentFavoritesBinding
+import com.bardur.moviedb.storage.MovieStorageRepo
 import com.bardur.moviedb.ui.adapters.MovieAdapter
 import com.bardur.moviedb.ui.utills.showMovieDetails
 
 
-class TopRatedFragment : Fragment(), MovieAdapter.MovieClickListener,
-    MovieAdapter.MovieDataListener {
+class FavoritesFragment : Fragment(), MovieAdapter.MovieClickListener {
 
-    private lateinit var topRatedViewModel: TopRatedViewModel
-    private lateinit var binding: FragmentTopRatedBinding
+    private lateinit var favoritesViewModel: FavoritesViewModel
+    private lateinit var binding: FragmentFavoritesBinding
+    private lateinit var viewModelFactory: FavoritesViewModelFactory
+
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
+        inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_top_rated, container, false)
 
-        topRatedViewModel = ViewModelProvider(this)[TopRatedViewModel::class.java]
+        val repo: MovieStorageRepo = (activity as MainActivity).movieStorageRepo
 
-        binding.viewModel = topRatedViewModel
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_favorites, container, false)
+
+        viewModelFactory =
+            FavoritesViewModelFactory(repo)
+
+        favoritesViewModel =
+            ViewModelProvider(this, viewModelFactory).get(FavoritesViewModel::class.java)
+
+        binding.viewModel = favoritesViewModel
 
         binding.lifecycleOwner = viewLifecycleOwner
 
         return binding.root
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val movieAdapter = MovieAdapter(this, this)
-        binding.topRatedRecyclerView.adapter = movieAdapter
+        val movieAdapter = MovieAdapter(this)
+        binding.favoritesRecyclerView.adapter = movieAdapter
 
         /*
          * Observer the movies LiveData from the view model to make sure that
          * the displayed list of movies is updated when the LiveData changes
          */
-        topRatedViewModel.movies.observe(viewLifecycleOwner) {
+        favoritesViewModel.movies.observe(viewLifecycleOwner) {
             movieAdapter.updateMovies(it)
         }
 
@@ -54,12 +64,12 @@ class TopRatedFragment : Fragment(), MovieAdapter.MovieClickListener,
          * Observer the error LiveData from the view model to make sure
          * that the user is notified when an error happens
          */
-        topRatedViewModel.error.observe(viewLifecycleOwner) { error ->
+        favoritesViewModel.error.observe(viewLifecycleOwner) { error ->
             run {
                 if (error == 1) {
                     Toast.makeText(
                         context,
-                        getString(R.string.top_rated_result_error_message),
+                        getString(R.string.favorites_result_error_message),
                         Toast.LENGTH_SHORT
                     )
                         .show()
@@ -71,10 +81,5 @@ class TopRatedFragment : Fragment(), MovieAdapter.MovieClickListener,
     override fun handleClick(view: View, movie: Movie) {
         // The user has clicked on a movie from the list, show the details!
         showMovieDetails(view, movie)
-    }
-
-    override fun onDataUpdated() {
-        // Data in the list has been updated, makes sure to scroll the list to the top!
-        binding.topRatedRecyclerView.scrollToPosition(0)
     }
 }

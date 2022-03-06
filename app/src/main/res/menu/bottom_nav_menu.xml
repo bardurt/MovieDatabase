@@ -11,11 +11,15 @@
         android:icon="@drawable/ic_top_rated_black_24"
         android:title="@string/title_top_rated" />
 
-
     <item
         android:id="@+id/navigation_popular"
         android:icon="@drawable/ic_whats_hot_black_24"
         android:title="@string/title_popular" />
+
+    <item
+        android:id="@+id/navigation_favorites"
+        android:icon="@drawable/ic_favorite_black_24"
+        android:title="@string/title_favorites" />
 
     <item
         android:id="@+id/navigation_search"

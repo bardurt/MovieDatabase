@@ -12,7 +12,7 @@ import com.bardur.moviedb.R
 import com.bardur.moviedb.data.Movie
 import com.bardur.moviedb.databinding.FragmentPopularBinding
 import com.bardur.moviedb.ui.adapters.MovieAdapter
-import com.bardur.moviedb.ui.screens.utills.showMovieDetails
+import com.bardur.moviedb.ui.utills.showMovieDetails
 
 class PopularFragment : Fragment(), MovieAdapter.MovieClickListener {
 

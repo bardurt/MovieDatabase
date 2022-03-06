@@ -74,6 +74,13 @@
                     android:max="10"
                     app:setRating="@{detailsViewModel.movie.toFiveStarRating}" />
 
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{() -> detailsViewModel.saveMovie()}"
+                    android:src="@drawable/ic_favorite_black_24"
+                    app:tint="@color/red" />
+
             </LinearLayout>
 
 

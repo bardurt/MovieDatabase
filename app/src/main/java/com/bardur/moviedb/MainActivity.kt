@@ -9,12 +9,16 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.bardur.moviedb.ui.screens.utills.hideKeyboard
+import com.bardur.moviedb.storage.InMemoryMovieStorageRepo
+import com.bardur.moviedb.ui.utills.hideKeyboard
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedListener {
 
     private lateinit var navController: NavController
+
+    val movieStorageRepo = InMemoryMovieStorageRepo()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
