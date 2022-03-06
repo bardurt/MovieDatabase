@@ -36,4 +36,4 @@ Add your own features and improvements!
 
 2 : Accessing the repo is not optimal, we get it from Activity by casting, can this be optimzed?
 
-3 : Add Room to support persitent storage.
+3 : Add Room to support persistent storage.
