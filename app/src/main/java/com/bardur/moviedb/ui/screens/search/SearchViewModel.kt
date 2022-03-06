@@ -32,7 +32,7 @@ class SearchViewModel : ViewModel() {
         viewModelScope.launch {
             try {
                 val response = MovieDatabaseApi.retrofitService.search(query)
-                _movies.value = response.results
+                _movies.value = response.getSafeOnly()
 
             } catch (e: Exception) {
                 _error.value = 1

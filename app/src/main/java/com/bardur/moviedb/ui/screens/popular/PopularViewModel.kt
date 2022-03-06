@@ -35,7 +35,7 @@ class PopularViewModel : ViewModel() {
         viewModelScope.launch {
             try {
                 val response = MovieDatabaseApi.retrofitService.mostPopular()
-                _movies.value = response.results
+                _movies.value = response.getSafeOnly()
             } catch (e: Exception) {
                 Log.e(PopularViewModel::class.simpleName, e.message.orEmpty())
                 _error.value = 1

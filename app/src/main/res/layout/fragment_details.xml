@@ -10,7 +10,6 @@
             type="com.bardur.moviedb.ui.screens.details.DetailsViewModel" />
     </data>
 
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -36,7 +35,6 @@
                 app:layout_constraintVertical_chainStyle="packed"
                 app:posterPath="@{detailsViewModel.posterPath}"
                 tools:background="@color/teal_200" />
-
 
             <LinearLayout
                 android:id="@+id/details_title_bar"

@@ -47,7 +47,7 @@ class TopRatedViewModel : ViewModel() {
         viewModelScope.launch {
             try {
                 val response = MovieDatabaseApi.retrofitService.topRated(currentPage)
-                _movies.value = response.results
+                _movies.value = response.getSafeOnly()
                 _page.value = currentPage
             } catch (e: Exception) {
                 Log.e(TopRatedViewModel::class.simpleName, e.message.orEmpty())
@@ -59,14 +59,14 @@ class TopRatedViewModel : ViewModel() {
     }
 
     fun nextPage() {
-        if(!loading) {
+        if (!loading) {
             currentPage++
             getTopRatedMovies()
         }
     }
 
     fun previousPage() {
-        if(!loading) {
+        if (!loading) {
             currentPage--
             if (currentPage > 0) {
                 getTopRatedMovies()
