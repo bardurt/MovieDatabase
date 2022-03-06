@@ -14,7 +14,7 @@ Sample project using MVVM and Live data to load movies from The Movie Database
 Go to get https://www.themoviedb.org/ and get a free API KEY
 
 ### Step 2
-got to the file package ```com.bardur.moviedb.api.MovieDatabaseApiService.kt``` and find the variable 
+got to the file ```com.bardur.moviedb.api.MovieDatabaseApiService.kt``` and find the variable 
 ```
 private const val API_KEY = ""
 ``` 
