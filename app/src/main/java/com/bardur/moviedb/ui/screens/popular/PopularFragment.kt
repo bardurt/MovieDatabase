@@ -47,7 +47,7 @@ class PopularFragment : Fragment(), MovieAdapter.MovieClickListener {
         popularViewModel.error.observe(viewLifecycleOwner) { error ->
             run {
                 if (error == 1) {
-                    Toast.makeText(context, "Unable to load popular movies!", Toast.LENGTH_SHORT)
+                    Toast.makeText(context, getString(R.string.popular_result_error_message), Toast.LENGTH_SHORT)
                         .show()
                 }
             }

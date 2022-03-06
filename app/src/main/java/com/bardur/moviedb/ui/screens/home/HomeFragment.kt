@@ -33,17 +33,4 @@ class HomeFragment : Fragment() {
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        homeViewModel.error.observe(viewLifecycleOwner) { error ->
-            run {
-                if (error == 1) {
-                    Toast.makeText(context, "Unable to load popular movies!", Toast.LENGTH_SHORT)
-                        .show()
-                }
-            }
-        }
-    }
-
 }
