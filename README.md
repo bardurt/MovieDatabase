@@ -29,4 +29,11 @@ private const val API_KEY = "<API_KEY_FROM_STEP_1>"
 Run the project and play around to see a list of popular movies!
 
 ### Step 4
-Add your own features!
+Add your own features and improvements!
+
+#### Things which can be improved
+1 : Some layouts are very similar, can this be improved?
+
+2 : Accessing the repo is not optimal, we get it from Activity by casting, can this be optimzed?
+
+3 : Add Room to support persistent storage.
