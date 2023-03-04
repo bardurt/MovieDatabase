@@ -10,7 +10,7 @@ import com.bardur.moviedb.ui.screens.favorites.FavoritesViewModel
 class ApplicationViewModelFactory(
     private val movie: Movie? = null,
     private val movieStorageRepo: MovieStorageRepo? = null
-) : ViewModelProvider.Factory {
+) : ViewModelProvider.AndroidViewModelFactory() {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(DetailsViewModel::class.java)) {
             if (movie == null) {
