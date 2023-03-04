@@ -36,7 +36,7 @@ class FavoritesFragment : Fragment(), MovieAdapter.MovieClickListener {
             ApplicationViewModelFactory(movieStorageRepo = repo)
 
         favoritesViewModel =
-            ViewModelProvider(this, viewModelFactory).get(FavoritesViewModel::class.java)
+            ViewModelProvider(this, viewModelFactory)[FavoritesViewModel::class.java]
 
         binding.viewModel = favoritesViewModel
 
