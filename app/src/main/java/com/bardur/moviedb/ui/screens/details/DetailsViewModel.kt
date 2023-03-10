@@ -39,7 +39,9 @@ class DetailsViewModel(private val movie: Movie, private val moveStorageRepo: Mo
     init {
         _title.value = movie.title
         _overview.value = movie.overview
-        _posterPath.value = movie.posterPath
+        movie.posterPath?.let {
+            _posterPath.value = it
+        }
         _releaseYear.value = movie.releaseYear()
         _rating.value = movie.toFiveStarRating()
         updateFavoriteValue()

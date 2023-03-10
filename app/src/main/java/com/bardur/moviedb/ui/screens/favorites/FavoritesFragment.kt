@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -14,6 +13,7 @@ import com.bardur.moviedb.data.Movie
 import com.bardur.moviedb.databinding.FragmentFavoritesBinding
 import com.bardur.moviedb.storage.MovieStorageRepo
 import com.bardur.moviedb.ui.adapters.MovieAdapter
+import com.bardur.moviedb.ui.utills.ApplicationViewModelFactory
 import com.bardur.moviedb.ui.utills.showMovieDetails
 
 
@@ -21,7 +21,7 @@ class FavoritesFragment : Fragment(), MovieAdapter.MovieClickListener {
 
     private lateinit var favoritesViewModel: FavoritesViewModel
     private lateinit var binding: FragmentFavoritesBinding
-    private lateinit var viewModelFactory: FavoritesViewModelFactory
+    private lateinit var viewModelFactory: ApplicationViewModelFactory
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,10 +33,10 @@ class FavoritesFragment : Fragment(), MovieAdapter.MovieClickListener {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_favorites, container, false)
 
         viewModelFactory =
-            FavoritesViewModelFactory(repo)
+            ApplicationViewModelFactory(movieStorageRepo = repo)
 
         favoritesViewModel =
-            ViewModelProvider(this, viewModelFactory).get(FavoritesViewModel::class.java)
+            ViewModelProvider(this, viewModelFactory)[FavoritesViewModel::class.java]
 
         binding.viewModel = favoritesViewModel
 
