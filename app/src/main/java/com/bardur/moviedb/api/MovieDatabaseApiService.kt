@@ -33,12 +33,7 @@ private val retrofit = Retrofit.Builder()
     .build()
 
 interface MovieDatabaseApiService {
-    /**
-     * Returns a Coroutine [List] of [Movie] which can be fetched with await() if
-     * in a Coroutine scope.
-     * The @GET annotation indicates that the "mostPopular" endpoint will be requested with the GET
-     * HTTP method
-     */
+
     @GET("discover/movie?api_key=$API_KEY&sort_by=popularity.desc")
     suspend fun mostPopular(): MovieDatabaseResponseList
 
@@ -50,8 +45,6 @@ interface MovieDatabaseApiService {
 
     @GET("search/movie?api_key=$API_KEY")
     suspend fun search(@Query("query") query: String): MovieDatabaseResponseList
-
-
 
 }
 
