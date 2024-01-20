@@ -13,7 +13,7 @@ import retrofit2.http.Query
 private const val BASE_URL = "https://api.themoviedb.org/3/"
 
 // get your API Key from https://www.themoviedb.org/ replace [MY_API_KEY]
-private const val API_KEY = ""
+private const val API_KEY = "43ad9df8f9e03181f4ca41b5e00c8222"
 
 /**
  * Build the Moshi object that Retrofit will be using, making sure to add the Kotlin adapter for

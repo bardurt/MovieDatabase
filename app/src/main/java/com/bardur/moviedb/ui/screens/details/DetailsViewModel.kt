@@ -62,12 +62,12 @@ class DetailsViewModel(private val movie: Movie, private val moveStorageRepo: Mo
     }
 
     private fun saveAsFavorite() {
-        moveStorageRepo.saveMovie(movie)
+        moveStorageRepo.save(movie)
         updateFavoriteValue()
     }
 
     private fun removeFavorite() {
-        moveStorageRepo.deleteMovie(movie)
+        moveStorageRepo.delete(movie)
         updateFavoriteValue()
     }
 }
