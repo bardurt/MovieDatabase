@@ -27,6 +27,7 @@ import com.bardur.moviedb.R
 import com.bardur.moviedb.data.Movie
 import com.bardur.moviedb.extensions.roundTo
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.text.style.TextAlign
 
 
 @Composable
@@ -194,4 +195,42 @@ fun SearchBar(onTextChange: (text: String) -> Unit) {
             modifier = Modifier.fillMaxWidth()
         )
     }
+}
+
+@Composable
+fun PagingBar(page: Int = 1, previousPage: () -> Unit, nextPage: () -> Unit) {
+
+    Row(
+        horizontalArrangement = Arrangement.spacedBy(12.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(height = 48.dp)
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.ic_arrow_back_black_24),
+            contentDescription = "Vector",
+            colorFilter = ColorFilter.tint(color = Color.Black),
+            modifier = Modifier
+                .width(width = 32.dp)
+                .height(height = 32.dp)
+                .clickable { previousPage.invoke() }
+        )
+        Text(
+            text = page.toString(),
+            fontSize = 18.sp,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.weight(1f, true)
+        )
+        Image(
+            painter = painterResource(id = R.drawable.ic_arrow_forward_black_24),
+            contentDescription = "Vector",
+            colorFilter = ColorFilter.tint(color = Color.Black),
+            modifier = Modifier
+                .width(width = 32.dp)
+                .height(height = 32.dp)
+                .clickable { nextPage.invoke() }
+        )
+    }
+
 }

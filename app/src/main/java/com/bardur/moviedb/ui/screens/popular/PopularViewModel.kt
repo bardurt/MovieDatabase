@@ -11,6 +11,8 @@ import kotlinx.coroutines.launch
 
 class PopularViewModel : ViewModel() {
 
+    private var currentPage = 1
+
     private val _viewState = MutableStateFlow(ViewState())
 
     val viewState: StateFlow<ViewState>
@@ -25,8 +27,9 @@ class PopularViewModel : ViewModel() {
 
         viewModelScope.launch {
             try {
-                val response = MovieDatabaseApi.retrofitService.mostPopular()
-                _viewState.value = _viewState.value.copy(movies = response.getSafeOnly())
+                val response = MovieDatabaseApi.retrofitService.mostPopular(currentPage)
+                _viewState.value =
+                    _viewState.value.copy(items = response.getSafeOnly(), page = currentPage)
             } catch (e: Exception) {
                 Log.e(PopularViewModel::class.simpleName, e.message.orEmpty())
                 _viewState.value = _viewState.value.copy(error = "Cannot download movies")
@@ -35,9 +38,24 @@ class PopularViewModel : ViewModel() {
         }
     }
 
+    fun nextPage() {
+        currentPage++
+        getMostPopularMovies()
+    }
+
+    fun previousPage() {
+        currentPage--
+        if (currentPage > 0) {
+            getMostPopularMovies()
+        } else {
+            currentPage = 1
+        }
+    }
+
     data class ViewState(
         val loading: Boolean = false,
-        val movies: List<Movie> = listOf(),
-        val error: String = ""
+        val page: Int = 1,
+        val error: String = "",
+        val items: List<Movie> = listOf()
     )
 }

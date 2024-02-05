@@ -21,7 +21,7 @@ class SearchFragment : Fragment(), Navigator {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        searchViewModel = ViewModelProvider(this).get(SearchViewModel::class.java)
+        searchViewModel = ViewModelProvider(this)[SearchViewModel::class.java]
 
         return ComposeView(requireContext()).apply {
             setContent {

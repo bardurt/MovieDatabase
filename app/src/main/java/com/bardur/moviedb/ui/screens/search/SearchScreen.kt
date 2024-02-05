@@ -14,7 +14,6 @@ import com.bardur.moviedb.ui.common.SearchBar
 @Composable
 fun SearchScreen(viewModel: SearchViewModel, navigator: Navigator) {
     val viewState = viewModel.viewState.collectAsState()
-
     Column(
         modifier = Modifier
             .padding(12.dp)
@@ -23,13 +22,17 @@ fun SearchScreen(viewModel: SearchViewModel, navigator: Navigator) {
     ) {
         SearchBar(onTextChange = { viewModel.performSearch(it) })
         Spacer(modifier = Modifier.height(12.dp))
-        if (viewState.value.loading) {
-            LoadingSpinner()
-        } else {
-            RecyclerView(movies = viewState.value.items) {
-                navigator.showMovie(it)
+        Box(
+            contentAlignment = Alignment.Center,
+            modifier = Modifier.fillMaxSize()
+        ) {
+            if (viewState.value.loading) {
+                LoadingSpinner()
+            } else {
+                RecyclerView(movies = viewState.value.items) {
+                    navigator.showMovie(it)
+                }
             }
         }
     }
-
 }
