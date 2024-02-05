@@ -10,7 +10,7 @@ import com.bardur.moviedb.ui.screens.favorites.FavoritesViewModel
 class ApplicationViewModelFactory(
     private val movie: Movie? = null,
     private val movieStorageRepo: MovieStorageRepo? = null
-) : ViewModelProvider.AndroidViewModelFactory() {
+) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(DetailsViewModel::class.java)) {
             if (movie == null) {
@@ -21,7 +21,7 @@ class ApplicationViewModelFactory(
                 throw IllegalArgumentException("MovieStorageRepo cannot be null")
             }
 
-            return DetailsViewModel(movie, movieStorageRepo) as T
+            return DetailsViewModel(movie = movie, movieStorageRepo = movieStorageRepo) as T
         }
 
 
@@ -30,7 +30,7 @@ class ApplicationViewModelFactory(
             if (movieStorageRepo == null) {
                 throw IllegalArgumentException("MovieStorageRepo cannot be null")
             }
-            return FavoritesViewModel(movieStorageRepo) as T
+            return FavoritesViewModel(movieStorageRepo = movieStorageRepo) as T
         }
 
         throw IllegalArgumentException("Unknown ViewModel class")

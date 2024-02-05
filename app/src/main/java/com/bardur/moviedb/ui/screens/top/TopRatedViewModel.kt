@@ -1,78 +1,60 @@
 package com.bardur.moviedb.ui.screens.top
 
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bardur.moviedb.api.MovieDatabaseApi
 import com.bardur.moviedb.data.Movie
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class TopRatedViewModel : ViewModel() {
 
     private var currentPage = 1
 
-    private val _page = MutableLiveData<Int>().apply {
-        value = currentPage
-    }
-    val page: LiveData<Int>
-        get() = _page
+    private val _viewState = MutableStateFlow(ViewState())
 
-    private val _movies = MutableLiveData<List<Movie>>()
-    val movies: LiveData<List<Movie>>
-        get() = _movies
-
-    private var loading = false
-    private val _isLoading = MutableLiveData<Boolean>().apply {
-        value = loading
-    }
-    val isLoading: LiveData<Boolean>
-        get() = _isLoading
-
-    private val _error = MutableLiveData<Int>().apply {
-        value = 0
-    }
-    val error: LiveData<Int>
-        get() = _error
+    val viewState: StateFlow<ViewState>
+        get() = _viewState
 
     init {
         getTopRatedMovies()
     }
 
     private fun getTopRatedMovies() {
-        loading = true
-        _error.value = 0
-        _isLoading.value = loading
+        _viewState.value = _viewState.value.copy(loading = true, error = "")
         viewModelScope.launch {
             try {
                 val response = MovieDatabaseApi.retrofitService.topRated(currentPage)
-                _movies.value = response.getSafeOnly()
-                _page.value = currentPage
+                _viewState.value =
+                    _viewState.value.copy(items = response.getSafeOnly(), page = currentPage)
             } catch (e: Exception) {
                 Log.e(TopRatedViewModel::class.simpleName, e.message.orEmpty())
-                _error.value = 1
+                _viewState.value = _viewState.value.copy(error = "Cannot download movies")
             }
-            loading = false
-            _isLoading.value = loading
+            _viewState.value = _viewState.value.copy(loading = false)
         }
     }
 
     fun nextPage() {
-        if (!loading) {
-            currentPage++
-            getTopRatedMovies()
-        }
+        currentPage++
+        getTopRatedMovies()
     }
 
     fun previousPage() {
-        if (!loading) {
-            currentPage--
-            if (currentPage > 0) {
-                getTopRatedMovies()
-            } else {
-                currentPage = 1
-            }
+        currentPage--
+        if (currentPage > 0) {
+            getTopRatedMovies()
+        } else {
+            currentPage = 1
         }
     }
+
+    data class ViewState(
+        val loading: Boolean = false,
+        val page: Int = 1,
+        val error: String = "",
+        val items: List<Movie> = listOf()
+    )
 }

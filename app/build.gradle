@@ -6,13 +6,21 @@ plugins {
 }
 
 android {
-    compileSdkVersion 33
+    compileSdkVersion 34
     buildToolsVersion "30.0.3"
+
+    buildFeatures {
+        compose true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.4"
+    }
 
     defaultConfig {
         applicationId "com.bardur.moviedb"
         minSdkVersion 21
-        targetSdkVersion 33
+        targetSdkVersion 34
         versionCode 1
         versionName "1.0"
 
@@ -37,15 +45,20 @@ android {
             languageVersion.set(JavaLanguageVersion.of("11"))
         }
     }
-
-    dataBinding {
-        enabled = true
-    }
     namespace 'com.bardur.moviedb'
 }
 
 dependencies {
 
+    implementation 'androidx.compose.ui:ui'
+    implementation 'androidx.compose.material:material'
+    implementation 'androidx.compose.runtime:runtime'
+    implementation 'androidx.activity:activity-compose:1.8.2'
+    implementation platform('androidx.compose:compose-bom:2022.10.00')
+    implementation 'androidx.compose.ui:ui-graphics'
+    implementation 'androidx.compose.ui:ui-tooling-preview'
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.7.0")
+    implementation("io.coil-kt:coil-compose:2.5.0")
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.core:core-ktx:1.9.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
@@ -57,15 +70,7 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.0'
     implementation 'androidx.navigation:navigation-fragment-ktx:2.5.3'
     implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'
-
-    // Images
-    implementation 'com.squareup.picasso:picasso:2.71828'
-
-    //Network
-    // Moshi
     implementation "com.squareup.moshi:moshi-kotlin:1.9.3"
-
-    // Retrofit with Moshi Converter
     implementation "com.squareup.retrofit2:converter-moshi:2.9.0"
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 

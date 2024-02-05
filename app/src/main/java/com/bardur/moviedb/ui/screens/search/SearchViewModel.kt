@@ -1,44 +1,37 @@
 package com.bardur.moviedb.ui.screens.search
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bardur.moviedb.api.MovieDatabaseApi
 import com.bardur.moviedb.data.Movie
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class SearchViewModel : ViewModel() {
 
-    private val _isLoading = MutableLiveData<Boolean>().apply {
-        value = false
-    }
-    val isLoading: LiveData<Boolean>
-        get() = _isLoading
+    private val _viewState = MutableStateFlow(ViewState())
 
-    private val _error = MutableLiveData<Int>().apply {
-        value = 0
-    }
-
-    val error: LiveData<Int>
-        get() = _error
-
-    private val _movies = MutableLiveData<List<Movie>>()
-    val movies: LiveData<List<Movie>> = _movies
+    val viewState: StateFlow<ViewState>
+        get() = _viewState
 
     fun performSearch(query: String) {
-        _error.value = 0
-        _isLoading.value = true
+
+        _viewState.value = _viewState.value.copy(loading = true, error = "")
         viewModelScope.launch {
             try {
                 val response = MovieDatabaseApi.retrofitService.search(query)
-                _movies.value = response.getSafeOnly()
-
+                _viewState.value = _viewState.value.copy(items = response.getSafeOnly())
             } catch (e: Exception) {
-                _error.value = 1
+                _viewState.value = _viewState.value.copy(error = "Cannot find movie")
             }
-
-            _isLoading.value = false
+            _viewState.value = _viewState.value.copy(loading = false)
         }
     }
+
+    data class ViewState(
+        val loading: Boolean = false,
+        val error: String = "",
+        val items: List<Movie> = listOf()
+    )
 }

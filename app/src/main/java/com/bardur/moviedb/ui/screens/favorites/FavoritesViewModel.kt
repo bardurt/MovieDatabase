@@ -1,46 +1,44 @@
 package com.bardur.moviedb.ui.screens.favorites
 
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bardur.moviedb.data.Movie
 import com.bardur.moviedb.storage.MovieStorageRepo
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class FavoritesViewModel(private val movieStorageRepo: MovieStorageRepo) : ViewModel() {
 
-    private val _movies = MutableLiveData<List<Movie>>()
-    val movies: LiveData<List<Movie>>
-        get() = _movies
+    private val _viewState = MutableStateFlow(ViewState())
 
-    private val _isLoading = MutableLiveData<Boolean>()
-    val isLoading: LiveData<Boolean>
-        get() = _isLoading
-
+    val viewState: StateFlow<ViewState>
+        get() = _viewState
 
     init {
         getFavoritesMovies()
     }
 
     private fun getFavoritesMovies() {
-
-        _isLoading.value = true
+        _viewState.value = _viewState.value.copy(loading = true)
         viewModelScope.launch {
             try {
                 val result = movieStorageRepo.getAll()
 
-                if(result.isEmpty()){
+                if (result.isEmpty()) {
                     throw IllegalStateException("No Result Found")
                 }
-                _movies.value = result
+                _viewState.value = _viewState.value.copy(items = result)
             } catch (e: Exception) {
                 Log.e(FavoritesViewModel::class.simpleName, e.message.orEmpty())
             }
-            _isLoading.value = false
+            _viewState.value = _viewState.value.copy(loading = false)
         }
-
     }
 
+    data class ViewState(
+        val loading: Boolean = false,
+        val items: List<Movie> = listOf()
+    )
 }
