@@ -35,6 +35,10 @@ data class Movie(
         }
     }
 
+    fun getPosterUrl(): String {
+        return "https://image.tmdb.org/t/p/w500$posterPath"
+    }
+
     companion object {
         const val MAX_RATING = 10
         const val FIVE_SCALE = 5

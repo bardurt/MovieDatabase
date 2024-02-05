@@ -1,46 +1,61 @@
 package com.bardur.moviedb.ui.screens.popular
 
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bardur.moviedb.api.MovieDatabaseApi
 import com.bardur.moviedb.data.Movie
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class PopularViewModel : ViewModel() {
 
-    private val _movies = MutableLiveData<List<Movie>>()
-    val movies: LiveData<List<Movie>>
-        get() = _movies
+    private var currentPage = 1
 
-    private val _isLoading = MutableLiveData<Boolean>()
-    val isLoading: LiveData<Boolean>
-        get() = _isLoading
+    private val _viewState = MutableStateFlow(ViewState())
 
-    private val _error = MutableLiveData<Int>().apply {
-        value = 0
-    }
-    val error: LiveData<Int>
-        get() = _error
+    val viewState: StateFlow<ViewState>
+        get() = _viewState
 
     init {
         getMostPopularMovies()
     }
 
     private fun getMostPopularMovies() {
-        _error.value = 0
-        _isLoading.value = true
+        _viewState.value = _viewState.value.copy(loading = true, error = "")
+
         viewModelScope.launch {
             try {
-                val response = MovieDatabaseApi.retrofitService.mostPopular()
-                _movies.value = response.getSafeOnly()
+                val response = MovieDatabaseApi.retrofitService.mostPopular(currentPage)
+                _viewState.value =
+                    _viewState.value.copy(items = response.getSafeOnly(), page = currentPage)
             } catch (e: Exception) {
                 Log.e(PopularViewModel::class.simpleName, e.message.orEmpty())
-                _error.value = 1
+                _viewState.value = _viewState.value.copy(error = "Cannot download movies")
             }
-            _isLoading.value = false
+            _viewState.value = _viewState.value.copy(loading = false)
         }
     }
+
+    fun nextPage() {
+        currentPage++
+        getMostPopularMovies()
+    }
+
+    fun previousPage() {
+        currentPage--
+        if (currentPage > 0) {
+            getMostPopularMovies()
+        } else {
+            currentPage = 1
+        }
+    }
+
+    data class ViewState(
+        val loading: Boolean = false,
+        val page: Int = 1,
+        val error: String = "",
+        val items: List<Movie> = listOf()
+    )
 }

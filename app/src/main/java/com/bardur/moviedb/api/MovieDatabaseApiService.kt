@@ -35,7 +35,7 @@ private val retrofit = Retrofit.Builder()
 interface MovieDatabaseApiService {
 
     @GET("discover/movie?api_key=$API_KEY&sort_by=popularity.desc")
-    suspend fun mostPopular(): MovieDatabaseResponseList
+    suspend fun mostPopular(@Query("page") page : Int): MovieDatabaseResponseList
 
     @GET("movie/latest?api_key=$API_KEY&language=en-US")
     suspend fun latest(): Movie

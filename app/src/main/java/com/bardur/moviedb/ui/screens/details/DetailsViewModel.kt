@@ -1,58 +1,38 @@
 package com.bardur.moviedb.ui.screens.details
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.bardur.moviedb.data.Movie
 import com.bardur.moviedb.storage.MovieStorageRepo
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 
-class DetailsViewModel(private val movie: Movie, private val moveStorageRepo: MovieStorageRepo) :
+class DetailsViewModel(private val movie: Movie, private val movieStorageRepo: MovieStorageRepo) :
     ViewModel() {
 
-    private val _title = MutableLiveData<String>()
-    val title: LiveData<String>
-        get() = _title
+    private val _viewState = MutableStateFlow(ViewState())
 
-    private val _overview = MutableLiveData<String>()
-    val overview: LiveData<String>
-        get() = _overview
-
-    private val _posterPath = MutableLiveData<String>()
-    val posterPath: LiveData<String>
-        get() = _posterPath
-
-    private val _releaseYear = MutableLiveData<String>()
-    val releaseYear : LiveData<String>
-        get() = _releaseYear
-
-    private val _rating = MutableLiveData<Double>()
-    val rating : LiveData<Double>
-        get() =  _rating
-
-    private val _favorite = MutableLiveData<Boolean>().apply {
-        value = false
-    }
-
-    val isFavorite: LiveData<Boolean>
-        get() = _favorite
+    val viewState: StateFlow<ViewState>
+        get() = _viewState
 
     init {
-        _title.value = movie.title
-        _overview.value = movie.overview
-        movie.posterPath?.let {
-            _posterPath.value = it
-        }
-        _releaseYear.value = movie.releaseYear()
-        _rating.value = movie.toFiveStarRating()
-        updateFavoriteValue()
+        _viewState.value = _viewState.value.copy(
+            title = movie.title,
+            overview = movie.overview,
+            posterPath = movie.getPosterUrl(),
+            releaseYear = movie.releaseYear(),
+            rating = movie.toFiveStarRating(),
+            favorite = movieStorageRepo.contains(movie)
+        )
     }
 
     private fun checkIfFavorite(): Boolean {
-        return moveStorageRepo.contains(movie)
+        return movieStorageRepo.contains(movie)
     }
 
     private fun updateFavoriteValue() {
-        _favorite.value = moveStorageRepo.contains(movie)
+        _viewState.value = _viewState.value.copy(
+            favorite = movieStorageRepo.contains(movie)
+        )
     }
 
     fun updateMovieFavorite() {
@@ -64,12 +44,21 @@ class DetailsViewModel(private val movie: Movie, private val moveStorageRepo: Mo
     }
 
     private fun saveAsFavorite() {
-        moveStorageRepo.save(movie)
+        movieStorageRepo.save(movie)
         updateFavoriteValue()
     }
 
     private fun removeFavorite() {
-        moveStorageRepo.delete(movie)
+        movieStorageRepo.delete(movie)
         updateFavoriteValue()
     }
+
+    data class ViewState(
+        val title: String = "",
+        val overview: String = "",
+        val posterPath: String = "",
+        val releaseYear: String = "",
+        val rating: Double = 0.0,
+        val favorite: Boolean = false
+    )
 }
