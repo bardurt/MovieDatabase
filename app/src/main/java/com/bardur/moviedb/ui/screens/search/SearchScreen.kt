@@ -29,7 +29,7 @@ fun SearchScreen(viewModel: SearchViewModel, navigator: Navigator) {
             if (viewState.value.loading) {
                 LoadingSpinner()
             } else {
-                RecyclerView(movies = viewState.value.items) {
+                RecyclerView(columns = 1, movies = viewState.value.items) {
                     navigator.showMovie(it)
                 }
             }
