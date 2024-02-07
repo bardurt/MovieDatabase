@@ -92,12 +92,12 @@ fun HeartButton(filled: Boolean, onClick: () -> Unit) {
 }
 
 @Composable
-fun RecyclerView(movies: List<Movie>, onClick: (movie: Movie) -> Unit) {
+fun RecyclerView(columns: Int = 2, movies: List<Movie>, onClick: (movie: Movie) -> Unit) {
     LazyVerticalGrid(
         modifier = Modifier
             .fillMaxWidth()
             .systemBarsPadding(),
-        columns = GridCells.Fixed(2),
+        columns = GridCells.Fixed(columns),
         verticalArrangement = Arrangement.spacedBy(8.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
@@ -192,7 +192,12 @@ fun SearchBar(onTextChange: (text: String) -> Unit) {
                 text = it
                 onTextChange.invoke(it)
             },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            colors = TextFieldDefaults.textFieldColors(
+                backgroundColor = Color.Transparent,
+                focusedIndicatorColor = Color.Blue,
+                unfocusedIndicatorColor = Color.LightGray
+            )
         )
     }
 }
