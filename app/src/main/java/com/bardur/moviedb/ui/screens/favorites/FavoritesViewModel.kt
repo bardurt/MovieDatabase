@@ -1,6 +1,5 @@
 package com.bardur.moviedb.ui.screens.favorites
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bardur.moviedb.data.Movie
@@ -23,17 +22,8 @@ class FavoritesViewModel(private val movieStorageRepo: MovieStorageRepo) : ViewM
     private fun getFavoritesMovies() {
         _viewState.value = _viewState.value.copy(loading = true)
         viewModelScope.launch {
-            try {
-                val result = movieStorageRepo.getAll()
-
-                if (result.isEmpty()) {
-                    throw IllegalStateException("No Result Found")
-                }
-                _viewState.value = _viewState.value.copy(items = result)
-            } catch (e: Exception) {
-                Log.e(FavoritesViewModel::class.simpleName, e.message.orEmpty())
-            }
-            _viewState.value = _viewState.value.copy(loading = false)
+            val result = movieStorageRepo.getAll()
+            _viewState.value = _viewState.value.copy(loading = false, items = result)
         }
     }
 

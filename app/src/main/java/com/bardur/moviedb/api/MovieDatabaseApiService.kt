@@ -12,7 +12,7 @@ import retrofit2.http.Query
 
 private const val BASE_URL = "https://api.themoviedb.org/3/"
 
-// get your API Key from https://www.themoviedb.org/ replace [MY_API_KEY]
+// get your API Key from https://www.themoviedb.org/ and replace this
 private const val API_KEY = "43ad9df8f9e03181f4ca41b5e00c8222"
 
 /**
@@ -48,9 +48,6 @@ interface MovieDatabaseApiService {
 
 }
 
-/**
- * A public Api object that exposes the lazy-initialized Retrofit service
- */
 object MovieDatabaseApi {
     val retrofitService: MovieDatabaseApiService by lazy { retrofit.create(MovieDatabaseApiService::class.java) }
 }
